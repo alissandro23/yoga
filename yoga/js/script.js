@@ -58,3 +58,41 @@ class Timer {
 
 const timer = new Timer(new Date(1690811563549), '#timer')
 timer.run()
+
+
+let slideIndex = 0;
+	const slides = document.getElementsByClassName("slider-item");
+	const dots = document.getElementsByClassName("dot");
+
+showSlide(slideIndex);
+
+function showSlide(index) {
+    if (index >= slides.length) {
+        slideIndex = 0;
+    }
+    if (index < 0) {
+        slideIndex = slides.length - 1;
+    }
+    
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+        dots[i].classList.remove("dot-active");
+    }
+    
+    slides[slideIndex].style.display = "block";
+    dots[slideIndex].classList.add("dot-active");
+}
+
+function nextSlide() {
+    showSlide(slideIndex + 1);
+}
+
+function prevSlide() {
+    showSlide(slideIndex - 1);
+}
+
+const nextButton = document.querySelector(".next");
+const prevButton = document.querySelector(".prev");
+
+nextButton.addEventListener("click", nextSlide);
+prevButton.addEventListener("click", prevSlide);
