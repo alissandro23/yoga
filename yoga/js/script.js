@@ -96,3 +96,42 @@ const prevButton = document.querySelector(".prev");
 
 nextButton.addEventListener("click", nextSlide);
 prevButton.addEventListener("click", prevSlide);
+
+class PriceCalculator {
+    #peopleInput;
+    #daysInput;
+    #placeInput;
+
+    placeRate = 1000;
+
+    constructor ({
+        peopleSelector, 
+        daysSelector,
+        placeSelector,
+    }) {
+        this.#peopleInput = document.querySelector(peopleSelector)
+        this.#daysInput = document.querySelector(daysSelector)
+        this.#placeInput = document.querySelector(placeSelector)
+    }
+
+    bindEvents(callback) {
+        this.#peopleInput.addEventListener("change", callback);
+        this.#daysInput.addEventListener("change", callback);
+        this.#placeInput.addEventListener("change", callback);
+    }
+
+    calculatePrice() {
+        return this.#peopleInput.value * this.#daysInput.value * this.#placeInput.value * this.placeRate 
+        
+    }
+}
+
+const calculator = new PriceCalculator({
+    peopleSelector: "#people-count",
+    daysSelector: "#days-count",
+    placeSelector: "#place-select",
+});
+
+calculator.bindEvents(() => {
+    document.querySelector("#total").innerText = calculator.calculatePrice()
+})
