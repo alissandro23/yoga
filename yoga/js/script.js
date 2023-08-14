@@ -135,3 +135,68 @@ const calculator = new PriceCalculator({
 calculator.bindEvents(() => {
     document.querySelector("#total").innerText = calculator.calculatePrice()
 })
+
+class Modal {
+    #trigger;
+    #modal;
+
+    content;
+    title;
+
+    constructor({
+        trigger,
+        content,
+        title = "Modal"
+    }) {
+        this.#trigger = document.querySelector(trigger);
+        this.content = content;
+        this.title = title;
+
+        this.bind();
+    }
+
+    bind() {
+        this.#trigger.addEventListener('click', this.openModal.bind(this));
+    }
+
+    openModal() {
+        if (!this.#modal) {
+            this.#modal = this.#generateModal();
+        }
+
+        this.#modal.style.display = 'flex';
+    }
+
+    closeModal() {
+        if (this.#modal) {
+            this.#modal.style.display = 'none';
+        }
+    }
+
+    #generateModal() {
+        const modal = document.createElement("div");
+
+        modal.className = "modal-wrapper";
+        modal.innerHTML = `
+            <div class="modal-body">
+                <button data-close class="modal-close">&times;</button>
+                <h4 class="modal-title">${this.title}</h4>
+                <div class="modal-content">
+                    ${this.content}
+                </div>
+            </div>
+        `;
+
+        document.body.append(modal);
+
+        modal.querySelector("[data-close]").addEventListener('click', this.closeModal.bind(this));
+
+        return modal;
+    }
+}
+
+const modal1 = new Modal({
+    trigger: ".more",
+    title: "More Info",
+    content: "More information here..."
+});
